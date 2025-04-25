@@ -1,0 +1,26 @@
+services:
+  opendirectory:
+    image: htobi02/nginx-opendirectory
+    container_name: opendirectory
+    restart: unless-stopped
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse:/dev/fuse
+    ports:
+      - "12000:12000"
+    environment:
+      - PORT=12000
+      - LIMIT_RATE=2097152
+      - LIMIT_RATE_AFTER=52428800
+      - EXPIRES=7d
+      - MAX_AGE=604800
+    volumes:
+      - /mnt/user/media/Movies:/movies/1:ro
+      - /mnt/user/media/Temporary Movies:/movies/2:ro
+      - /mnt/user/media/TV-Movierecs:/movies/3:ro
+      - /mnt/user/media/Series:/series/1:ro
+      - /mnt/user/media/Temporary Series:/series/2:ro
+      - /mnt/user/media/TV-Seriesrec:/series/3:ro
+      - /mnt/user/media/Music:/music/1:ro
