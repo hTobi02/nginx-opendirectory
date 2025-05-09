@@ -1,3 +1,8 @@
+map $remote_addr $client_limit_rate {
+    default          $LIMIT_RATE;                 # Standard-Rate (z. B. 1 MB/s)
+    $HOME_NET    0;                  # Kein Limit für dein Heimnetz
+}
+
 server {
     listen       $PORT;
     server_tokens off;
@@ -59,7 +64,7 @@ server {
         add_header Cache-Control "public, max-age=$MAX_AGE, immutable";
 
         # Limit download speed per client
-        limit_rate $LIMIT_RATE;
+        limit_rate $client_limit_rate;
 
         # Allow unlimited download after X MB
         limit_rate_after $LIMIT_RATE_AFTER;
